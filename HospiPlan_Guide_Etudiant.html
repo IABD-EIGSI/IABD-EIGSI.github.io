@@ -1,0 +1,2184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HospiPlan — Guide Étudiant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── Reset & Base ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:        #0B1F35;
+  --blue:        #1A5FA8;
+  --blue-mid:    #2475C8;
+  --blue-light:  #DBE9F8;
+  --blue-pale:   #F0F6FD;
+  --teal:        #0B7285;
+  --teal-light:  #D0EDF1;
+  --green:       #166534;
+  --green-light: #DCFCE7;
+  --amber:       #78350F;
+  --amber-light: #FEF3C7;
+  --amber-mid:   #D97706;
+  --red:         #7F1D1D;
+  --red-light:   #FEE2E2;
+  --purple:      #3B0764;
+  --purple-mid:  #7C3AED;
+  --purple-light:#EDE9FE;
+  --grey-900:    #111827;
+  --grey-700:    #374151;
+  --grey-500:    #6B7280;
+  --grey-300:    #D1D5DB;
+  --grey-100:    #F3F4F6;
+  --white:       #FFFFFF;
+
+  --phase1: #1A5FA8;
+  --phase2: #0B7285;
+  --phase3: #166534;
+  --phase4: #7C3AED;
+
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'IBM Plex Sans', sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+
+  --sidebar-w: 260px;
+  --content-max: 860px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--grey-700);
+  background: var(--grey-100);
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── Sidebar ──────────────────────────────────────────────────────────────── */
+#sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: var(--navy);
+  overflow-y: auto;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 32px;
+}
+
+.sidebar-logo {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.sidebar-logo .project-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 6px;
+}
+.sidebar-logo h1 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.1;
+}
+.sidebar-logo p {
+  font-size: 12px;
+  color: rgba(255,255,255,0.45);
+  margin-top: 4px;
+  font-style: italic;
+}
+
+.sidebar-section {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.sidebar-section-label {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.28);
+  padding: 12px 24px 4px;
+  display: block;
+}
+
+.sidebar-link {
+  display: block;
+  padding: 8px 24px 8px 20px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.60);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .18s ease;
+  line-height: 1.4;
+}
+.sidebar-link:hover {
+  color: var(--white);
+  background: rgba(255,255,255,0.05);
+  border-left-color: rgba(255,255,255,0.3);
+}
+.sidebar-link.active {
+  color: var(--white);
+  background: rgba(255,255,255,0.08);
+  font-weight: 500;
+}
+
+.sidebar-link[data-phase="1"] { border-left-color: transparent; }
+.sidebar-link[data-phase="1"]:hover, .sidebar-link[data-phase="1"].active { border-left-color: #5BA3F5; color: #A8CFFF; }
+.sidebar-link[data-phase="2"]:hover, .sidebar-link[data-phase="2"].active { border-left-color: #2DD4E6; color: #A1EEF7; }
+.sidebar-link[data-phase="3"]:hover, .sidebar-link[data-phase="3"].active { border-left-color: #4ADE80; color: #A1F4B8; }
+.sidebar-link[data-phase="4"]:hover, .sidebar-link[data-phase="4"].active { border-left-color: #A78BFA; color: #D4C4FF; }
+
+.sidebar-sub {
+  padding: 5px 24px 5px 36px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  text-decoration: none;
+  display: block;
+  transition: color .15s;
+}
+.sidebar-sub:hover { color: rgba(255,255,255,0.75); }
+
+/* ── Main ─────────────────────────────────────────────────────────────────── */
+#main {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  min-height: 100vh;
+}
+
+/* ── Cover ───────────────────────────────────────────────────────────────── */
+.cover {
+  background: var(--navy);
+  padding: 80px 64px 72px;
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  top: -120px; right: -120px;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(36,117,200,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cover::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: 40px;
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(11,114,133,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cover-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  display: block;
+  margin-bottom: 16px;
+}
+.cover h1 {
+  font-family: var(--font-display);
+  font-size: clamp(42px, 6vw, 68px);
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.0;
+  letter-spacing: -.02em;
+  margin-bottom: 12px;
+}
+.cover h1 span {
+  color: #5BA3F5;
+}
+.cover-subtitle {
+  font-size: 17px;
+  color: rgba(255,255,255,0.5);
+  font-style: italic;
+  margin-bottom: 40px;
+  font-weight: 300;
+}
+.cover-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.cover-pill {
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font-mono);
+  letter-spacing: .04em;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.65);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* ── Content sections ─────────────────────────────────────────────────────── */
+.content {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 56px 48px 80px;
+}
+
+/* ── Section headings ─────────────────────────────────────────────────────── */
+.section-anchor { padding-top: 24px; }
+
+h2.section-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--grey-300);
+  margin-top: 48px;
+}
+h2.section-title:first-child { margin-top: 0; }
+
+h3.sub-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--grey-900);
+  margin: 28px 0 10px;
+}
+
+p { margin-bottom: 14px; color: var(--grey-700); }
+p:last-child { margin-bottom: 0; }
+
+/* ── Phase header ─────────────────────────────────────────────────────────── */
+.phase-block {
+  margin: 0;
+  padding: 0;
+  border-top: 4px solid var(--phase-color, var(--blue));
+}
+
+.phase-header {
+  background: var(--navy);
+  padding: 48px 64px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.phase-header::before {
+  content: attr(data-num);
+  position: absolute;
+  right: 48px; top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-display);
+  font-size: 140px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.04);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+.phase-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: block;
+}
+.phase-header h2 {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.phase-header .phase-sub {
+  font-size: 15px;
+  color: rgba(255,255,255,0.45);
+  font-style: italic;
+  font-weight: 300;
+  margin-bottom: 24px;
+}
+.phase-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.phase-pill {
+  padding: 5px 14px;
+  border-radius: 100px;
+  font-size: 11.5px;
+  font-weight: 500;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.65);
+  font-family: var(--font-mono);
+}
+
+/* Phase color overrides */
+.phase-1 { --phase-color: #1A5FA8; }
+.phase-1 .phase-eyebrow { color: #5BA3F5; }
+.phase-2 { --phase-color: #0B7285; }
+.phase-2 .phase-eyebrow { color: #2DD4E6; }
+.phase-3 { --phase-color: #166534; }
+.phase-3 .phase-eyebrow { color: #4ADE80; }
+.phase-4 { --phase-color: #7C3AED; }
+.phase-4 .phase-eyebrow { color: #A78BFA; }
+
+/* ── Mandate box ──────────────────────────────────────────────────────────── */
+.mandate {
+  background: var(--blue-pale);
+  border-left: 4px solid var(--blue-mid);
+  border-radius: 0 8px 8px 0;
+  padding: 20px 24px;
+  margin: 24px 0;
+  font-style: italic;
+  color: var(--grey-700);
+  font-weight: 300;
+  font-size: 14.5px;
+  line-height: 1.75;
+  position: relative;
+}
+.mandate::before {
+  content: '"';
+  position: absolute;
+  top: -8px; left: 16px;
+  font-size: 60px;
+  font-family: Georgia, serif;
+  color: var(--blue-mid);
+  opacity: .25;
+  line-height: 1;
+}
+
+/* ── Cards ────────────────────────────────────────────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+.card {
+  background: var(--white);
+  border: 1px solid var(--grey-300);
+  border-radius: 10px;
+  padding: 18px 20px;
+  border-top: 3px solid var(--card-color, var(--blue));
+}
+.card-icon { font-size: 22px; margin-bottom: 8px; }
+.card h4 {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--grey-900);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.card p { font-size: 13px; color: var(--grey-500); margin: 0; }
+
+/* ── Table ────────────────────────────────────────────────────────────────── */
+.spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0 24px;
+  font-size: 13.5px;
+  background: var(--white);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.spec-table thead th {
+  background: var(--navy);
+  color: var(--white);
+  padding: 10px 16px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.spec-table tbody td {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--grey-100);
+  vertical-align: top;
+  line-height: 1.55;
+}
+.spec-table tbody tr:last-child td { border-bottom: none; }
+.spec-table tbody tr:nth-child(even) td { background: var(--grey-100); }
+.spec-table .mono { font-family: var(--font-mono); color: var(--blue); font-size: 12.5px; }
+.spec-table .label {
+  font-weight: 600;
+  color: var(--grey-900);
+  white-space: nowrap;
+}
+
+/* ── Colored boxes ────────────────────────────────────────────────────────── */
+.box {
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin: 20px 0;
+}
+.box-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.box-header .box-icon { font-size: 18px; }
+.box-header strong {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+.box-reflex {
+  background: var(--amber-light);
+  border: 1px solid #FCD34D;
+}
+.box-reflex .box-header strong { color: var(--amber); }
+.box-reflex ul li { color: var(--amber); }
+
+.box-docs {
+  background: var(--teal-light);
+  border: 1px solid #67E8F9;
+}
+.box-docs .box-header strong { color: var(--teal); }
+
+.box-warn {
+  background: var(--red-light);
+  border: 1px solid #FCA5A5;
+}
+.box-warn .box-header strong { color: var(--red); }
+.box-warn p { color: var(--red); font-style: italic; font-size: 13.5px; }
+
+.box-livrable {
+  background: var(--green-light);
+  border: 1px solid #86EFAC;
+}
+.box-livrable .box-header strong { color: var(--green); }
+.box-livrable ul li { color: var(--green); }
+
+.box-info {
+  background: var(--blue-pale);
+  border: 1px solid #BFDBFE;
+}
+.box-info .box-header strong { color: var(--blue); }
+
+.box-spec {
+  background: var(--purple-light);
+  border: 1px solid #C4B5FD;
+}
+.box-spec .box-header strong { color: var(--purple-mid); }
+
+/* ── Lists ────────────────────────────────────────────────────────────────── */
+ul.styled {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+ul.styled li {
+  padding: 5px 0 5px 22px;
+  position: relative;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+ul.styled li::before {
+  content: '–';
+  position: absolute;
+  left: 4px;
+  color: var(--grey-300);
+  font-weight: 700;
+}
+
+.box-reflex ul.styled li::before  { color: #D97706; }
+.box-livrable ul.styled li::before { color: #22C55E; }
+.box-docs ul.styled li::before    { color: var(--teal); }
+.box-docs ul.styled li a {
+  color: var(--teal);
+  text-decoration: none;
+  font-size: 13px;
+}
+.box-docs ul.styled li a:hover { text-decoration: underline; }
+
+/* ── Constraint bands ─────────────────────────────────────────────────────── */
+.constraint-type {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+.ct-hard { background: var(--red-light); color: var(--red); }
+.ct-soft { background: var(--amber-light); color: var(--amber); }
+
+/* ── Meta-heuristic comparison ────────────────────────────────────────────── */
+.mh-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 16px 0;
+}
+.mh-card {
+  background: var(--white);
+  border: 1px solid var(--grey-300);
+  border-radius: 8px;
+  padding: 16px 18px;
+  border-left: 3px solid var(--purple-mid);
+}
+.mh-card h4 {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--purple);
+  margin-bottom: 6px;
+}
+.mh-card p { font-size: 13px; margin: 0; color: var(--grey-500); }
+
+/* ── Phase progress bar ──────────────────────────────────────────────────── */
+.phase-progress {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 0 0 0;
+  background: var(--grey-100);
+  border-bottom: 1px solid var(--grey-300);
+}
+.pp-item {
+  flex: 1;
+  padding: 12px 18px;
+  font-size: 11.5px;
+  font-family: var(--font-mono);
+  text-align: center;
+  font-weight: 500;
+  opacity: .45;
+  border-bottom: 3px solid transparent;
+  transition: all .2s;
+}
+.pp-item.active {
+  opacity: 1;
+  border-bottom-color: var(--pp-color);
+  color: var(--pp-color);
+  background: var(--white);
+}
+.pp-1 { --pp-color: #1A5FA8; }
+.pp-2 { --pp-color: #0B7285; }
+.pp-3 { --pp-color: #166534; }
+.pp-4 { --pp-color: #7C3AED; }
+
+/* ── Divider ──────────────────────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: var(--grey-300);
+  margin: 40px 0;
+}
+
+/* ── Highlighted requirement ──────────────────────────────────────────────── */
+.req-block {
+  background: var(--white);
+  border: 1px solid var(--grey-300);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 14px 0;
+}
+.req-label {
+  background: var(--grey-900);
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+}
+.req-body {
+  padding: 14px 18px;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--grey-700);
+}
+.req-body strong { color: var(--grey-900); }
+
+/* ── Stack badge ─────────────────────────────────────────────────────────── */
+.stack-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0;
+}
+.stack-badge {
+  padding: 6px 14px;
+  border-radius: 6px;
+  background: var(--grey-900);
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.stack-badge span { color: rgba(255,255,255,0.45); font-size: 11px; }
+
+/* ── Objectives banner ────────────────────────────────────────────────────── */
+.obj-banner {
+  background: linear-gradient(135deg, #0B1F35 0%, #1A4070 100%);
+  border-radius: 12px;
+  padding: 32px 36px;
+  margin: 24px 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.obj-item { display: flex; gap: 14px; align-items: flex-start; }
+.obj-num {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.08);
+  line-height: 1;
+  min-width: 36px;
+}
+.obj-text h4 {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+.obj-text p { font-size: 12.5px; color: rgba(255,255,255,0.5); margin: 0; }
+
+/* ── Functional description bloc ─────────────────────────────────────────── */
+.func-block {
+  background: var(--white);
+  border: 1px solid var(--grey-300);
+  border-radius: 10px;
+  padding: 22px 24px;
+  margin: 16px 0;
+}
+.func-block h4 {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--grey-900);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--grey-100);
+}
+.func-block p { font-size: 13.5px; margin-bottom: 8px; }
+.func-block .hint {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--blue);
+  background: var(--blue-light);
+  padding: 3px 10px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-top: 6px;
+}
+
+/* ── Scroll-triggered animation ───────────────────────────────────────────── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+.footer {
+  background: var(--navy);
+  padding: 32px 64px;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+  font-family: var(--font-mono);
+  letter-spacing: .05em;
+}
+
+/* ── Top navigation bar ───────────────────────────────────────────────────── */
+#topnav {
+  position: fixed;
+  top: 0; left: var(--sidebar-w); right: 0;
+  height: 52px;
+  background: rgba(11,31,53,0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  padding: 0 36px;
+  gap: 4px;
+  transform: translateY(-100%);
+  transition: transform .3s cubic-bezier(.4,0,.2,1);
+}
+#topnav.visible { transform: translateY(0); }
+
+.topnav-brand {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--white);
+  margin-right: 24px;
+  letter-spacing: -.01em;
+  white-space: nowrap;
+}
+.topnav-brand span { color: #5BA3F5; }
+
+.topnav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+}
+.topnav-link {
+  padding: 6px 13px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: all .15s;
+  white-space: nowrap;
+  font-family: var(--font-body);
+  border: 1px solid transparent;
+}
+.topnav-link:hover {
+  color: var(--white);
+  background: rgba(255,255,255,0.07);
+}
+.topnav-link.active {
+  color: var(--white);
+  background: rgba(255,255,255,0.10);
+  border-color: rgba(255,255,255,0.12);
+}
+.topnav-link[data-phase="1"].active { color: #5BA3F5; border-color: rgba(91,163,245,0.3); background: rgba(91,163,245,0.08); }
+.topnav-link[data-phase="2"].active { color: #2DD4E6; border-color: rgba(45,212,230,0.3); background: rgba(45,212,230,0.08); }
+.topnav-link[data-phase="3"].active { color: #4ADE80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.08); }
+.topnav-link[data-phase="4"].active { color: #A78BFA; border-color: rgba(167,139,250,0.3); background: rgba(167,139,250,0.08); }
+
+.topnav-progress {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+.topnav-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  transition: background .2s;
+  cursor: pointer;
+}
+.topnav-dot.active { background: #5BA3F5; }
+.topnav-dot[data-p="2"].active { background: #2DD4E6; }
+.topnav-dot[data-p="3"].active { background: #4ADE80; }
+.topnav-dot[data-p="4"].active { background: #A78BFA; }
+
+/* ── Hero / Accueil ───────────────────────────────────────────────────────── */
+#accueil {
+  min-height: 100vh;
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 80px 64px;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.hero-bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+.hero-bg-orb-1 {
+  width: 600px; height: 600px;
+  top: -200px; right: -100px;
+  background: radial-gradient(circle, rgba(26,95,168,0.25) 0%, transparent 70%);
+}
+.hero-bg-orb-2 {
+  width: 400px; height: 400px;
+  bottom: -100px; left: 100px;
+  background: radial-gradient(circle, rgba(11,114,133,0.15) 0%, transparent 70%);
+}
+.hero-bg-orb-3 {
+  width: 300px; height: 300px;
+  top: 30%; left: 30%;
+  background: radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%);
+}
+.hero-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  text-align: center;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 100px;
+  background: rgba(26,95,168,0.2);
+  border: 1px solid rgba(91,163,245,0.3);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #5BA3F5;
+  margin-bottom: 28px;
+  animation: fadeSlideUp .6s ease both;
+}
+.hero-tag-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #5BA3F5;
+  animation: pulse 2s ease infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: .5; transform: scale(.7); }
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 8vw, 96px);
+  font-weight: 800;
+  color: var(--white);
+  line-height: .95;
+  letter-spacing: -.03em;
+  margin-bottom: 20px;
+  animation: fadeSlideUp .6s .1s ease both;
+}
+.hero-title .accent { color: #5BA3F5; }
+.hero-title .accent2 { color: #2DD4E6; }
+
+.hero-desc {
+  font-size: 17px;
+  color: rgba(255,255,255,0.5);
+  max-width: 560px;
+  line-height: 1.7;
+  font-weight: 300;
+  margin: 0 auto 40px;
+  animation: fadeSlideUp .6s .2s ease both;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 64px;
+  animation: fadeSlideUp .6s .3s ease both;
+}
+.hero-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 28px;
+  border-radius: 8px;
+  background: #1A5FA8;
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all .2s;
+  border: none;
+  cursor: pointer;
+}
+.hero-btn-primary:hover {
+  background: #2475C8;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(26,95,168,0.35);
+}
+.hero-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 24px;
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(255,255,255,0.6);
+  font-size: 14px;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.15);
+  transition: all .2s;
+  cursor: pointer;
+}
+.hero-btn-secondary:hover {
+  color: var(--white);
+  border-color: rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.05);
+}
+
+/* Phase cards on hero */
+.hero-phases {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  justify-content: center;
+  animation: fadeSlideUp .6s .4s ease both;
+}
+.hero-phase-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 18px 16px;
+  text-decoration: none;
+  transition: all .2s;
+  border-top: 2px solid var(--pc);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.hero-phase-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity .2s;
+}
+.hero-phase-card:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.12);
+  transform: translateY(-3px);
+}
+.hero-phase-card:hover::before { opacity: 1; }
+
+.hpc-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--pc);
+  margin-bottom: 10px;
+  display: block;
+}
+.hpc-title {
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+.hpc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.hpc-tag {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.4);
+}
+.hpc-duration {
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  margin-top: 10px;
+  display: block;
+  font-family: var(--font-mono);
+}
+
+/* Scroll indicator */
+.hero-scroll {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255,255,255,0.25);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  animation: fadeSlideUp .6s .6s ease both;
+  cursor: pointer;
+  text-decoration: none;
+}
+.hero-scroll-arrow {
+  width: 20px; height: 20px;
+  border-right: 2px solid rgba(255,255,255,0.2);
+  border-bottom: 2px solid rgba(255,255,255,0.2);
+  transform: rotate(45deg);
+  animation: scrollBounce 1.8s ease infinite;
+}
+@keyframes scrollBounce {
+  0%, 100% { transform: rotate(45deg) translateY(0); opacity: .3; }
+  50%       { transform: rotate(45deg) translateY(5px); opacity: .8; }
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Section navigator (prev / next) ─────────────────────────────────────── */
+.section-nav {
+  background: var(--navy);
+  padding: 24px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.section-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: all .2s;
+  background: rgba(255,255,255,0.03);
+  min-width: 180px;
+}
+.section-nav-btn:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.2);
+}
+.section-nav-btn.next { flex-direction: row-reverse; min-width: 180px; }
+.snb-arrow {
+  font-size: 18px;
+  color: rgba(255,255,255,0.3);
+  flex-shrink: 0;
+}
+.snb-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 3px;
+}
+.snb-title {
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.75);
+}
+.section-nav-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.snc-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  cursor: pointer;
+  transition: background .2s, transform .2s;
+  text-decoration: none;
+}
+.snc-dot:hover { transform: scale(1.3); background: rgba(255,255,255,0.35); }
+.snc-dot.active { background: var(--snc-color, #5BA3F5); transform: scale(1.2); }
+
+/* ── Back to top ──────────────────────────────────────────────────────────── */
+#back-to-top {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--navy);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.7);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  z-index: 200;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: all .25s;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+#back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+#back-to-top:hover {
+  background: #1A5FA8;
+  border-color: #1A5FA8;
+  color: var(--white);
+}
+
+/* ── Mobile hamburger ─────────────────────────────────────────────────────── */
+#mobile-menu-btn {
+  display: none;
+  position: fixed;
+  top: 12px; left: 12px;
+  z-index: 200;
+  background: var(--navy);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  width: 40px; height: 40px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+}
+.hb-line {
+  width: 100%;
+  height: 2px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 2px;
+  transition: all .2s;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   RESPONSIVE — Mobile First
+══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Sidebar overlay backdrop (mobile) ───────────────────────────────────── */
+#sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 99;
+  opacity: 0;
+  transition: opacity .3s;
+  backdrop-filter: blur(2px);
+}
+#sidebar-backdrop.visible { opacity: 1; }
+
+/* ── Table scroll wrapper ─────────────────────────────────────────────────── */
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
+  /* Subtle scroll hint shadow */
+  background:
+    linear-gradient(to right, white 20%, rgba(255,255,255,0)),
+    linear-gradient(to right, rgba(255,255,255,0), white 80%) 100% 0,
+    radial-gradient(farthest-side at 0 50%, rgba(0,0,0,0.08), rgba(0,0,0,0)) 0 50%,
+    radial-gradient(farthest-side at 100% 50%, rgba(0,0,0,0.08), rgba(0,0,0,0)) 100% 50%;
+  background-repeat: no-repeat;
+  background-size: 40px 100%, 40px 100%, 14px 60%, 14px 60%;
+  background-attachment: local, local, scroll, scroll;
+}
+.table-scroll .spec-table {
+  min-width: 480px;
+  border-radius: 0;
+  margin: 0;
+}
+
+/* ── Tablet — sidebar hidden, topnav full ─────────────────────────────────── */
+@media (max-width: 960px) {
+  :root { --sidebar-w: 0px; }
+
+  /* Sidebar becomes overlay */
+  #sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 280px;
+    height: 100%;
+    transform: translateX(-100%);
+    transition: transform .3s cubic-bezier(.4,0,.2,1);
+    z-index: 110;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.3);
+  }
+  #sidebar.open { transform: translateX(0); }
+
+  /* Backdrop */
+  #sidebar-backdrop { display: block; }
+  #sidebar-backdrop.visible { display: block; }
+
+  /* Hamburger visible */
+  #mobile-menu-btn { display: flex; }
+
+  /* Main fills the screen */
+  #main { margin-left: 0; }
+
+  /* Topnav spans full width */
+  #topnav {
+    left: 0;
+    padding: 0 16px 0 62px;
+    height: 52px;
+  }
+  .topnav-link:not([data-phase]) { display: none; }
+  .topnav-links { gap: 1px; }
+
+  /* Hero */
+  #accueil { padding: 72px 28px 56px; }
+  .hero-phases { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .hero-actions { flex-wrap: wrap; gap: 10px; }
+  .hero-desc { font-size: 15px; }
+
+  /* Phase headers */
+  .phase-header {
+    padding: 36px 28px 28px;
+  }
+  .phase-header::before { font-size: 100px; right: 20px; }
+
+  /* Content */
+  .content { padding: 36px 24px 60px; }
+
+  /* Objectives banner */
+  .obj-banner {
+    grid-template-columns: 1fr;
+    padding: 24px 22px;
+    gap: 18px;
+  }
+
+  /* Metaheuristic grid */
+  .mh-grid { grid-template-columns: 1fr; }
+
+  /* Section nav */
+  .section-nav { padding: 16px 20px; gap: 10px; }
+  .section-nav-btn { min-width: 0; padding: 10px 14px; gap: 8px; flex: 1; }
+  .snb-title { font-size: 12px; }
+  .snb-label { display: none; }
+
+  /* Tables need scroll wrapper — add via JS */
+  .spec-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* Back to top */
+  #back-to-top { bottom: 20px; right: 20px; width: 40px; height: 40px; font-size: 16px; }
+}
+
+/* ── Mobile — narrow phones ≤ 600px ──────────────────────────────────────── */
+@media (max-width: 600px) {
+
+  /* Topnav: compact — hide phase links, keep dots */
+  #topnav { padding: 0 12px 0 58px; height: 48px; }
+  .topnav-link { display: none !important; }
+  .topnav-brand { font-size: 14px; margin-right: 12px; }
+  .topnav-progress { margin-left: auto; }
+
+  /* Hero */
+  #accueil { padding: 64px 20px 48px; min-height: auto; }
+  .hero-title { font-size: clamp(36px, 11vw, 52px); letter-spacing: -.02em; }
+  .hero-desc { font-size: 14px; margin-bottom: 28px; }
+  .hero-tag { font-size: 9.5px; padding: 5px 12px; }
+  .hero-actions { flex-direction: column; align-items: flex-start; }
+  .hero-btn-primary, .hero-btn-secondary { width: 100%; justify-content: center; }
+  .hero-phases { grid-template-columns: 1fr; gap: 8px; }
+  .hero-phase-card { padding: 14px; }
+  .hpc-title { font-size: 13px; }
+  .hero-scroll { display: none; }
+
+  /* Phase headers */
+  .phase-header { padding: 28px 20px 24px; }
+  .phase-header h2 { font-size: clamp(20px, 6vw, 28px); }
+  .phase-header .phase-sub { font-size: 13px; margin-bottom: 16px; }
+  .phase-header::before { display: none; }
+  .phase-pill { font-size: 10px; padding: 4px 10px; }
+
+  /* Content */
+  .content { padding: 28px 18px 48px; }
+  h2.section-title { font-size: 22px; margin-top: 36px; }
+  h3.sub-title { font-size: 16px; }
+  p { font-size: 14px; }
+  ul.styled li { font-size: 13px; }
+
+  /* Func blocks */
+  .func-block { padding: 16px; }
+  .func-block h4 { font-size: 14px; }
+  .func-block p { font-size: 13px; }
+  .func-block .hint { font-size: 10.5px; }
+
+  /* Boxes */
+  .box { padding: 16px; }
+  .box-header strong { font-size: 13px; }
+
+  /* Mandate */
+  .mandate { font-size: 13.5px; padding: 16px 16px 16px 20px; }
+  .mandate::before { font-size: 44px; }
+
+  /* Stack grid: 2 per row */
+  .stack-grid { gap: 6px; }
+  .stack-badge { font-size: 11px; padding: 5px 10px; }
+  .stack-badge span { display: none; }
+
+  /* Objectives banner */
+  .obj-banner { padding: 20px 16px; border-radius: 8px; }
+  .obj-num { font-size: 28px; min-width: 28px; }
+  .obj-text h4 { font-size: 13.5px; }
+  .obj-text p { font-size: 12px; }
+
+  /* Tables — horizontal scroll + readable */
+  .spec-table { font-size: 12.5px; min-width: 440px; }
+  .spec-table thead th { font-size: 10px; padding: 8px 12px; }
+  .spec-table tbody td { padding: 8px 12px; }
+
+  /* Section nav — compact */
+  .section-nav { padding: 12px 16px; flex-wrap: wrap; gap: 8px; }
+  .section-nav-btn { padding: 8px 12px; gap: 6px; }
+  .snb-title { font-size: 11.5px; }
+  .snb-arrow { font-size: 16px; }
+  .section-nav-center { order: -1; width: 100%; justify-content: center; padding-bottom: 4px; }
+
+  /* MH cards */
+  .mh-card h4 { font-size: 13px; }
+  .mh-card p { font-size: 12.5px; }
+
+  /* Constraint type badges */
+  .constraint-type { font-size: 9.5px; }
+
+  /* Back to top closer to corner */
+  #back-to-top { bottom: 14px; right: 14px; width: 38px; height: 38px; font-size: 15px; }
+}
+
+/* ── Very small phones ≤ 360px ───────────────────────────────────────────── */
+@media (max-width: 360px) {
+  .hero-title { font-size: 32px; }
+  .content { padding: 22px 14px 40px; }
+  .phase-header { padding: 22px 16px 20px; }
+  .section-nav { padding: 10px 12px; }
+  .section-nav-btn { padding: 7px 10px; }
+  .snb-title { font-size: 10.5px; }
+  .box { padding: 13px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Back to top ─────────────────────────────────────────────────────────── -->
+<a href="#accueil" id="back-to-top" title="Retour en haut">↑</a>
+
+<!-- ── Sidebar backdrop ───────────────────────────────────────────────────── -->
+<div id="sidebar-backdrop" onclick="closeSidebar()"></div>
+
+<!-- ── Mobile menu button ─────────────────────────────────────────────────── -->
+<button id="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Menu">
+  <div class="hb-line"></div>
+  <div class="hb-line"></div>
+  <div class="hb-line"></div>
+</button>
+
+<!-- ── Top navigation bar ─────────────────────────────────────────────────── -->
+<nav id="topnav">
+  <span class="topnav-brand">Hospi<span>Plan</span></span>
+  <div class="topnav-links">
+    <a href="#accueil"     class="topnav-link">Accueil</a>
+    <a href="#preambule"   class="topnav-link">Préambule</a>
+    <a href="#p1-contexte" class="topnav-link" data-phase="1">Phase 1</a>
+    <a href="#p2-contexte" class="topnav-link" data-phase="2">Phase 2</a>
+    <a href="#p3-contexte" class="topnav-link" data-phase="3">Phase 3</a>
+  </div>
+  <div class="topnav-progress">
+    <div class="topnav-dot" data-p="1" onclick="scrollToPhase(1)" title="Phase 1"></div>
+    <div class="topnav-dot" data-p="2" onclick="scrollToPhase(2)" title="Phase 2"></div>
+    <div class="topnav-dot" data-p="3" onclick="scrollToPhase(3)" title="Phase 3"></div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     SIDEBAR
+══════════════════════════════════════════════════════════════════════════ -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <span class="project-tag">Projet Bootcamp</span>
+    <h1>HospiPlan</h1>
+    <p>Cahier de charges évolutif</p>
+  </div>
+
+  <div class="sidebar-section">
+    <span class="sidebar-section-label">Navigation</span>
+    <a href="#accueil"   class="sidebar-link">🏠 Accueil</a>
+    <a href="#preambule" class="sidebar-link">📖 Préambule</a>
+  </div>
+    <a href="#objectifs" class="sidebar-link">Objectifs pédagogiques</a>
+    <a href="#philosophie" class="sidebar-link">Philosophie du projet</a>
+  </div>
+
+  <div class="sidebar-section">
+    <span class="sidebar-section-label">Phase 1 — Fondations BD</span>
+    <a href="#p1-contexte" class="sidebar-link" data-phase="1">Contexte fonctionnel</a>
+    <a href="#p1-specs" class="sidebar-link" data-phase="1">Spécifications techniques</a>
+    <a href="#p1-reflex" class="sidebar-link" data-phase="1">Pistes de réflexion</a>
+    <a href="#p1-docs" class="sidebar-link" data-phase="1">Ressources</a>
+    <a href="#p1-livrables" class="sidebar-link" data-phase="1">Livrables</a>
+  </div>
+
+  <div class="sidebar-section">
+    <span class="sidebar-section-label">Phase 2 — API & Fullstack</span>
+    <a href="#p2-contexte" class="sidebar-link" data-phase="2">Contexte fonctionnel</a>
+    <a href="#p2-specs" class="sidebar-link" data-phase="2">Spécifications techniques</a>
+    <a href="#p2-reflex" class="sidebar-link" data-phase="2">Pistes de réflexion</a>
+    <a href="#p2-docs" class="sidebar-link" data-phase="2">Ressources</a>
+    <a href="#p2-livrables" class="sidebar-link" data-phase="2">Livrables</a>
+  </div>
+
+  <div class="sidebar-section">
+    <span class="sidebar-section-label">Phase 3 — Planning auto &amp; molles</span>
+    <a href="#p3-contexte" class="sidebar-link" data-phase="3">Contexte fonctionnel</a>
+    <a href="#p3-contraintes" class="sidebar-link" data-phase="3">Dures / molles &amp; objectif</a>
+    <a href="#p3-specs" class="sidebar-link" data-phase="3">Spécifications techniques</a>
+    <a href="#p3-reflex" class="sidebar-link" data-phase="3">Pistes de réflexion</a>
+    <a href="#p3-docs" class="sidebar-link" data-phase="3">Ressources</a>
+    <a href="#p3-livrables" class="sidebar-link" data-phase="3">Livrables</a>
+  </div>
+
+  <!-- Phase 4 supprimée dans la nouvelle organisation à 3 phases -->
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     MAIN
+══════════════════════════════════════════════════════════════════════════ -->
+<main id="main">
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       HERO / ACCUEIL
+  ══════════════════════════════════════════════════════════════════════════ -->
+  <section id="accueil">
+    <div class="hero-bg">
+      <div class="hero-bg-grid"></div>
+      <div class="hero-bg-orb hero-bg-orb-1"></div>
+      <div class="hero-bg-orb hero-bg-orb-2"></div>
+      <div class="hero-bg-orb hero-bg-orb-3"></div>
+    </div>
+
+    <div class="hero-inner">
+      <div class="hero-tag">
+        <span class="hero-tag-dot"></span>
+        Projet Bootcamp · Système d'Information Hospitalier
+      </div>
+
+      <h1 class="hero-title">
+        Hospi<span class="accent">Plan</span><br>
+        <span class="accent2" style="font-size:.65em; letter-spacing:-.01em">Guide Étudiant</span>
+      </h1>
+
+      <p class="hero-desc">
+        Vous allez concevoir et déployer un système complet de planification du personnel soignant pour l'hôpital fictif <strong style="color:rgba(255,255,255,0.75)">Al Amal</strong>. De la modélisation de la base de données jusqu'à la génération automatique de plannings — en 3 phases progressives.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#preambule" class="hero-btn-primary">
+          Commencer le projet →
+        </a>
+      
+      </div>
+
+      <div class="hero-phases">
+        <a href="#p1-contexte" class="hero-phase-card" style="--pc:#5BA3F5">
+          <span class="hpc-num">Phase 01</span>
+          <div class="hpc-title">Fondations & Base de Données</div>
+          <div class="hpc-tags">
+            <span class="hpc-tag">SQL</span>
+            <span class="hpc-tag">Modélisation</span>
+          </div>
+        </a>
+        <a href="#p2-contexte" class="hero-phase-card" style="--pc:#2DD4E6">
+          <span class="hpc-num">Phase 02</span>
+          <div class="hpc-title">Backend Django & Application Web</div>
+          <div class="hpc-tags">
+            <span class="hpc-tag">Django</span>
+            <span class="hpc-tag">API</span>
+            <span class="hpc-tag">Frontend JS</span>
+          </div>
+        </a>
+        <a href="#p3-contexte" class="hero-phase-card" style="--pc:#4ADE80">
+          <span class="hpc-num">Phase 03</span>
+          <div class="hpc-title">Contraintes Molles & Auto‑planning</div>
+          <div class="hpc-tags">
+            <span class="hpc-tag">Heuristique</span>
+            <span class="hpc-tag">Métaheuristique</span>
+            <span class="hpc-tag">Tests</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <a href="#preambule" class="hero-scroll">
+      <span>DÉFILER</span>
+      <div class="hero-scroll-arrow"></div>
+    </a>
+  </section>
+
+  <!-- ── PRÉAMBULE ─────────────────────────────────────────────────────────── -->
+  <div class="content">
+
+    <div id="preambule" class="section-anchor">
+      <h2 class="section-title">Préambule</h2>
+      <p>Vous êtes mandatés par l'hôpital fictif <strong>Al Amal</strong> pour concevoir et déployer un système numérique de planification du personnel soignant. L'hôpital opère 24h/24 sur plusieurs sites, avec des dizaines de services, une diversité de profils de soignants, et des règles de planification complexes imposées à la fois par la législation du travail et par les impératifs médicaux.</p>
+      <p>Aujourd'hui, les plannings sont construits manuellement dans des tableurs. Le résultat : des erreurs fréquentes, des conflits de planning, des surcharges injustes, et un temps RH considérable. Votre mission est de changer cela — progressivement, rigoureusement, et de manière professionnelle.</p>
+      <div style="margin: 18px 0 8px; text-align:center;">
+        <img src="Image/hospiplan-preambule-hopital.jpg"
+             alt="Vue d'un hôpital illustrant le contexte du projet"
+             style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.18);">
+      </div>
+    </div>
+
+    <div id="philosophie" class="section-anchor">
+      <h3 class="sub-title">Philosophie du projet</h3>
+      <p>Ce document est un <strong>cahier de charges évolutif</strong>. À chaque phase, de nouvelles exigences s'ajoutent aux précédentes. Vous ne repartez jamais de zéro — vous construisez sur ce qui a déjà été livré.</p>
+      <div class="box box-warn">
+        <div class="box-header"><span class="box-icon">📌</span><strong>Règle fondamentale</strong></div>
+        <p>Ce guide pose des questions, il ne donne pas de réponses. Chaque piste de réflexion est une invitation à chercher, expérimenter, et comprendre par vous-mêmes. Un projet copié sur une solution trouvée en ligne sans compréhension est un projet raté.</p>
+      </div>
+      
+    </div>
+
+  
+
+  </div><!-- /content preambule -->
+
+  <!-- Section nav: after preambule -->
+  <div class="section-nav">
+    <a href="#accueil" class="section-nav-btn prev">
+      <span class="snb-arrow">←</span>
+      <div><div class="snb-label">Retour</div><div class="snb-title">Accueil</div></div>
+    </a>
+    <div class="section-nav-center">
+      <a href="#accueil"     class="snc-dot active" style="--snc-color:#5BA3F5" title="Accueil"></a>
+      <a href="#p1-contexte" class="snc-dot" style="--snc-color:#5BA3F5" title="Phase 1"></a>
+      <a href="#p2-contexte" class="snc-dot" style="--snc-color:#2DD4E6" title="Phase 2"></a>
+      <a href="#p3-contexte" class="snc-dot" style="--snc-color:#4ADE80" title="Phase 3"></a>
+    </div>
+    <a href="#p1-contexte" class="section-nav-btn next">
+      <span class="snb-arrow">→</span>
+      <div><div class="snb-label">Suivant</div><div class="snb-title">Phase 1 — Fondations BD</div></div>
+    </a>
+  </div>
+  <div class="phase-block phase-1" style="border-top-color:#1A5FA8">
+    <div class="phase-header" data-num="01">
+      <span class="phase-eyebrow">Phase 01</span>
+      <h2>Fondations — Modélisation & Base de Données</h2>
+      <p class="phase-sub">Du domaine métier au schéma relationnel normalisé</p>
+      <div class="phase-pills">
+        <span class="phase-pill">🗄️ SQL & Modélisation</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div id="p1-contexte" class="section-anchor">
+      <h2 class="section-title">Contexte fonctionnel</h2>
+      <div class="mandate">
+        Notre hôpital a grandi trop vite. Nous avons aujourd'hui 6 services distincts avec des fonctionnements très différents, plus de 80 soignants aux profils variés, et une réglementation du travail que nous avons du mal à respecter faute d'outils. Avant de construire quoi que ce soit d'automatisé, nous avons besoin d'un socle de données solide, cohérent, et qui reflète fidèlement la complexité de notre organisation. Nous comptons sur vous pour modéliser ce que nous sommes — pas seulement ce que vous imaginez qu'un hôpital est.
+      </div>
+
+      <div style="margin: 18px 0 8px; text-align:center;">
+        <img src="Image/hospiplan-phase1-base-donnees.jpg"
+             alt="Illustration de tables et schéma de base de données"
+             style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.18);">
+      </div>
+
+      <h3 class="sub-title">Ce que vous devez comprendre avant de modéliser</h3>
+      <p>Le commanditaire vous demande d'abord d'étudier le domaine. Un hôpital n'est pas simplement une liste de médecins et d'infirmiers. Pour modéliser correctement, vous devez répondre à des questions fonctionnelles complexes. Les exigences suivantes décrivent ce que le système devra <em>savoir</em> — à vous d'identifier ce qu'il faut <em>stocker</em> pour y répondre.</p>
+
+      <div class="func-block fade-in">
+        <h4>Exigence F-01 · Gestion du personnel et des profils</h4>
+        <p>Le système doit distinguer différentes catégories de personnel soignant (médecins, infirmiers, aides-soignants, sages-femmes, etc.) avec leurs grades et spécialités médicales associées. Un même soignant peut avoir plusieurs spécialités. Certaines spécialités sont hiérarchisées (une spécialité peut être une sous-spécialité d'une autre).</p>
+        <p>Chaque soignant dispose d'un profil de contact, d'un historique d'appartenance aux services (un soignant peut avoir été affecté à plusieurs services au fil du temps), et d'un indicateur de statut actif/inactif.</p>
+        <div class="hint">→ Quelles structures de données permettent de représenter une hiérarchie de spécialités ?</div>
+      </div>
+
+      <div class="func-block fade-in">
+        <h4>Exigence F-02 · Contrats et modalités d'emploi</h4>
+        <p>Le système doit gérer la diversité des contrats : contrat à durée indéterminée, contrat à durée déterminée, intérim, stage, vacation. Chaque type de contrat a ses propres règles sur le nombre d'heures hebdomadaires maximales, le droit aux congés, et l'éligibilité aux gardes de nuit.</p>
+        <p>Un soignant peut avoir eu plusieurs contrats successifs. Le contrat en cours doit être distingué des contrats passés. La date de début, la date de fin (si applicable), le pourcentage de temps de travail (temps plein = 100%, mi-temps = 50%...) sont des informations essentielles.</p>
+        <div class="hint">→ Comment modéliser une relation temporelle entre une personne et son type de contrat ?</div>
+      </div>
+
+      <div class="func-block fade-in">
+        <h4>Exigence F-03 · Certifications et habilitations</h4>
+        <p>Un poste de garde peut exiger une ou plusieurs certifications spécifiques (réanimation cardio-pulmonaire, gestion des urgences pédiatriques, manipulation de certains équipements...). Une certification a une date d'obtention et une date d'expiration. Une certification expirée ne compte pas.</p>
+        <p>Certaines certifications sont des prérequis d'autres certifications. Le système doit conserver l'historique complet des certifications obtenues par chaque soignant, même celles qui ont expiré.</p>
+        <div class="hint">→ Comment modéliser une dépendance entre certifications ? Comment gérer la temporalité d'une certification ?</div>
+      </div>
+
+      <div class="func-block fade-in">
+        <h4>Exigence F-04 · Services et unités de soins</h4>
+        <p>L'hôpital est structuré en services (Urgences, Cardiologie, Pédiatrie...). Chaque service peut comporter plusieurs unités de soins distinctes avec des besoins en personnel différents. Un service a un responsable, une capacité d'accueil en lits, et un niveau de criticité (qui détermine les contraintes de dotation minimale en personnel).</p>
+        <p>Un service peut être temporairement fermé ou en sous-effectif. Ces états doivent être traçables avec leur date de début et de fin.</p>
+        <div class="hint">→ Faut-il modéliser les services et les unités comme la même entité ou des entités distinctes ?</div>
+      </div>
+
+      <div class="func-block fade-in">
+        <h4>Exigence F-05 · Types de gardes et créneaux</h4>
+        <p>Les postes de garde sont typés : garde de jour (matin, après-midi), garde de nuit, astreinte (le soignant est joignable mais pas présent), week-end, jour férié. Chaque type a ses propres règles de durée, de rémunération supplémentaire et de contraintes légales de repos qui suivent.</p>
+        <p>Un poste de garde est rattaché à une unité de soins précise, a une plage horaire, un nombre minimal et maximal de soignants requis, et une liste de certifications exigées. Les besoins en personnel d'un même service peuvent varier selon le jour de la semaine et selon la période de l'année (ex : afflux saisonnier aux urgences).</p>
+        <div class="hint">→ Comment représenter des besoins en personnel variables selon le contexte temporel ?</div>
+      </div>
+
+      <div class="func-block fade-in">
+        <h4>Exigence F-06 · Absences et indisponibilités</h4>
+        <p>Les soignants peuvent être absents pour de nombreuses raisons : congés annuels, maladie, formation, congé maternité/paternité, accident du travail, délégation syndicale, congé sans solde. Chaque type d'absence a des règles différentes sur son impact sur le quota de gardes du mois.</p>
+        <p>Une absence est déclarée avec une date de début, une date de fin prévisionnelle, et une date de fin réelle (qui peut différer). Une absence peut être planifiée (congés) ou imprévue (maladie). Le système doit permettre de retrouver, pour n'importe quelle date passée ou future, quels soignants seront disponibles.</p>
+        <div class="hint">→ Comment interroger efficacement les disponibilités sur une plage de dates quelconque ?</div>
+      </div>
+
+      <div class="func-block fade-in">
+        <h4>Exigence F-07 · Préférences et contraintes déclarées</h4>
+        <p>Chaque soignant peut déclarer des préférences sur ses créneaux (préfère les matins, refuse les nuits en semaine...) et des contraintes impératives déclarées (ne peut pas travailler le vendredi pour raisons religieuses, contrainte de transport le lundi matin...). Les préférences sont à valeur indicative, les contraintes impératives doivent être respectées.</p>
+        <p>Ces informations ont une date de validité : une contrainte déclarée en janvier peut ne plus être valable en juin.</p>
+        <div class="hint">→ Comment distinguer une préférence souple d'une contrainte dure dans le modèle de données ?</div>
+      </div>
+
+      <div class="func-block fade-in">
+        <h4>Exigence F-08 · Charge patiente et dotation dynamique</h4>
+        <p>Le nombre de soignants requis dans un service dépend partiellement du nombre de patients présents (taux d'occupation des lits). Le système doit stocker, par unité de soins et par journée, le nombre de patients présents. Au-delà d'un certain taux d'occupation, le service passe en régime de sur-activité, ce qui déclenche des règles de dotation différentes.</p>
+        <p>Ces données de charge patiente sont saisies manuellement chaque jour par le responsable de service et servent de référence historique pour l'optimisation future des plannings.</p>
+        <div class="hint">→ Faut-il stocker la charge patiente comme un attribut d'une affectation ou comme une entité propre ?</div>
+      </div>
+
+      <div class="func-block fade-in">
+        <h4>Exigence F-09 · Prêts inter-services</h4>
+        <p>Dans certaines situations (sur-activité dans un service, sous-effectif dans un autre), un soignant peut être temporairement "prêté" à un service différent du sien. Ce prêt est formalisé, daté, et doit être tracé pour le calcul des heures et la facturation interne entre services.</p>
+        <p>Un soignant prêté à un autre service ne perd pas son appartenance à son service d'origine.</p>
+        <div class="hint">→ Comment modéliser un prêt qui est lui-même un type particulier d'affectation ?</div>
+      </div>
+
+      <div class="func-block fade-in">
+        <h4>Exigence F-10 · Règles légales et conventionnelles</h4>
+        <p>Le système doit stocker les règles légales qui contraignent la planification : durée maximale hebdomadaire, repos obligatoire entre deux gardes, nombre maximal de nuits consécutives, quota mensuel de week-ends travaillés... Ces règles ne doivent pas être codées en dur — elles doivent être configurables, car elles peuvent évoluer avec la législation ou les conventions collectives.</p>
+        <div class="hint">→ Comment stocker des règles métier dans une base de données de sorte qu'elles restent modifiables sans changer le code ?</div>
+      </div>
+    </div>
+
+    <div id="p1-specs" class="section-anchor">
+      <h2 class="section-title">Spécifications techniques</h2>
+
+      <h3 class="sub-title">Exigences de qualité du schéma</h3>
+      <ul class="styled">
+        <li>Le schéma doit être normalisé au minimum en <strong>3NF</strong>. Toute dénormalisation intentionnelle doit être documentée et justifiée.</li>
+        <li>Chaque contrainte d'intégrité métier doit être exprimée dans le schéma (contraintes, clés étrangères, valeurs par défaut, contraintes CHECK).</li>
+        <li>Un <strong>dictionnaire de données</strong> doit accompagner le schéma : pour chaque attribut, son nom, son type, sa signification métier et ses contraintes.</li>
+        <li>Le script d'initialisation doit peupler la base avec des données fictives réalistes couvrant <em>tous</em> les cas décrits dans les exigences fonctionnelles.</li>
+      </ul>
+
+      <h3 class="sub-title">Requêtes SQL à implémenter et documenter</h3>
+      <table class="spec-table">
+        <thead><tr><th>Réf.</th><th>Objectif métier de la requête</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">Q-01</td><td>Lister tous les soignants disponibles (sans absence) pour un créneau donné, possédant toutes les certifications requises par un poste et dont les certifications ne sont pas expirées.</td></tr>
+          <tr><td class="mono">Q-02</td><td>Calculer, pour chaque soignant, le nombre d'heures effectives travaillées sur une période donnée en tenant compte de son pourcentage contractuel.</td></tr>
+          <tr><td class="mono">Q-03</td><td>Identifier les postes de garde non couverts dans un service donné sur les 7 prochains jours, en précisant si la non-couverture est due à une absence de personnel ou à un manque de certifications.</td></tr>
+          <tr><td class="mono">Q-04</td><td>Produire un rapport d'équité de charge par grade et par service sur un mois : nombre moyen de gardes, nombre de nuits, nombre de week-ends — avec écart-type.</td></tr>
+          <tr><td class="mono">Q-05</td><td>Lister les soignants dont une certification expire dans les 30 prochains jours et qui sont affectés à des postes requérant cette certification.</td></tr>
+          <tr><td class="mono">Q-06</td><td>Identifier les jours où le taux d'occupation d'un service a dépassé le seuil de sur-activité et lister les affectations actives ces jours-là pour analyse.</td></tr>
+          <tr><td class="mono">Q-07</td><td>Restituer l'historique complet des prêts inter-services d'un soignant, avec le cumul des heures effectuées hors de son service d'origine sur une période.</td></tr>
+        </tbody>
+      </table>
+
+    </div>
+
+    <div id="p1-reflex" class="section-anchor">
+      <div class="box box-reflex fade-in">
+        <div class="box-header"><span class="box-icon">💭</span><strong>Pistes de réflexion — Phase 1</strong></div>
+        <ul class="styled">
+          <li>Comment identifiez-vous une entité dans un domaine métier ? Quelle est la différence entre une entité et un attribut composé ?</li>
+          <li>Certaines exigences fonctionnelles semblent similaires — est-ce qu'elles nécessitent des entités distinctes ou peuvent-elles être modélisées avec une même structure générique ?</li>
+          <li>Comment stocker des règles métier configurables (exigence F-10) sans les coder en dur ? Quelles sont les implications sur la conception du schéma ?</li>
+          <li>Plusieurs exigences impliquent des relations temporelles (contrats successifs, certifications avec dates, absences). Quel patron de conception permet de modéliser proprement ces historiques ?</li>
+          <li>La hiérarchie de spécialités (F-01) et les prérequis de certifications (F-03) sont des structures récursives. Comment les représenter en relationnel ?</li>
+          <li>Pour la requête Q-01, quelles tables devrez-vous joindre ? Combien de jointures seront nécessaires ? Comment l'indexation peut-elle éviter un scan complet ?</li>
+          <li>L'exigence F-08 introduit une granularité temporelle fine (données par journée). Comment éviter une table qui grossit de manière incontrôlée ?</li>
+        </ul>
+      </div>
+    </div>
+    <div id="p1-livrables" class="section-anchor">
+      <div class="box box-livrable fade-in">
+        <div class="box-header"><span class="box-icon">✅</span><strong>Livrables de Phase 1</strong></div>
+        <ul class="styled">
+          <li><strong>Conception sur feuille blanche</strong> : diagramme Entité‑Relation (ERD) + description textuelle des tables et relations, à rendre sous forme de document.</li>
+          <li><strong>Requêtage SQL sur feuille blanche</strong> : écriture des requêtes Q‑01 à Q‑07 en SQL \"papier\" (sans SGBD), avec explication des choix de jointures.</li>
+          <li><strong>Implémentation du schéma</strong> : création de la base dans <strong>MySQL ou PostgreSQL</strong> (au choix), avec toutes les contraintes d'intégrité.</li>
+          <li><strong>Population de données</strong> : insertion de jeux de données réalistes couvrant tous les cas des exigences fonctionnelles.</li>
+          </ul>
+          <details class="box box-docs" style="margin-top:14px;">
+            <summary><strong>Livrables avancés (optionnels) — Phase 1</strong></summary>
+            <div style="margin-top:8px;">
+              <p>Les éléments ci‑dessous ne sont <strong>pas obligatoires</strong> pour valider la Phase 1. Ils sont proposés aux étudiants qui souhaitent aller plus loin. Dans ce cas, ils viennent <strong>en plus</strong> des livrables de base ci‑dessus.</p>
+              <ul class="styled">
+                <li><strong>Dockerisation de la base</strong> : fichier <code>docker-compose.yml</code> minimal permettant de lancer la base (MySQL ou PostgreSQL) en conteneur avec volume persistant.</li>
+                <li><strong>Jeu de données volumineux</strong> : script de peuplement générant automatiquement un grand nombre de soignants, services, postes et absences pour tester les performances des requêtes.</li>
+                <li><strong>Indexation réfléchie</strong> : ajout d'index ciblés (et documentés) pour optimiser les requêtes Q‑01 à Q‑07, avec une courte justification de chaque index.</li>
+                <li><strong>Rapport technique</strong> (1–2 pages) expliquant les choix avancés : structure des scripts, stratégie de génération de données, impact mesuré des index sur les temps de réponse.</li>
+              </ul>
+            </div>
+          </details>
+      </div>
+    </div>
+    <div id="p1-docs" class="section-anchor">
+      <div class="box box-docs fade-in">
+        <div class="box-header"><span class="box-icon">📚</span><strong>Ressources documentaires</strong></div>
+        <ul class="styled">
+          <li><a href="https://www.postgresql.org/docs/current/" target="_blank">PostgreSQL — Documentation officielle complète</a></li>
+          <li><a href="https://www.guru99.com/database-normalization.html" target="_blank">Normalisation des bases de données (1NF → BCNF) — Guide illustré</a></li>
+          <li><a href="https://use-the-index-luke.com/" target="_blank">Use The Index, Luke — Comprendre l'indexation SQL</a></li>
+          <li><a href="https://martinfowler.com/eaaDev/TemporalProperty.html" target="_blank">Martin Fowler — Temporal Property Pattern (relations temporelles)</a></li>
+          <li><a href="https://dbdiagram.io" target="_blank">dbdiagram.io — Outil de modélisation ERD en ligne</a></li>
+          <li><a href="https://docs.docker.com/compose/" target="_blank">Docker Compose — Guide de référence</a></li>
+          <li><a href="https://git-scm.com/book/fr/v2" target="_blank">Pro Git — Livre officiel (version française)</a></li>
+        </ul>
+      </div>
+    </div>
+
+    
+
+  </div><!-- /content phase 1 -->
+
+  <!-- Section nav: after Phase 1 -->
+  <div class="section-nav">
+    <a href="#preambule" class="section-nav-btn prev">
+      <span class="snb-arrow">←</span>
+      <div><div class="snb-label">Précédent</div><div class="snb-title">Préambule</div></div>
+    </a>
+    <div class="section-nav-center">
+      <a href="#accueil"     class="snc-dot" style="--snc-color:#5BA3F5" title="Accueil"></a>
+      <a href="#p1-contexte" class="snc-dot active" style="--snc-color:#5BA3F5" title="Phase 1"></a>
+      <a href="#p2-contexte" class="snc-dot" style="--snc-color:#2DD4E6" title="Phase 2"></a>
+      <a href="#p3-contexte" class="snc-dot" style="--snc-color:#4ADE80" title="Phase 3"></a>
+    </div>
+    <a href="#p2-contexte" class="section-nav-btn next">
+      <span class="snb-arrow">→</span>
+      <div><div class="snb-label">Suivant</div><div class="snb-title">Phase 2 — API & Fullstack</div></div>
+    </a>
+  </div>
+  <div class="phase-block phase-2" style="border-top-color:#0B7285">
+    <div class="phase-header" data-num="02">
+      <span class="phase-eyebrow">Phase 02</span>
+      <h2>Backend Django, Frontend & Contraintes dures</h2>
+      <p class="phase-sub">De la base de données à une application web utilisable et sécurisée</p>
+      <div class="phase-pills">
+        <span class="phase-pill">🌐 API Django</span>
+        <span class="phase-pill">🖥️ Frontend JavaScript</span>
+        <span class="phase-pill">🧱 Contraintes dures</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div id="p2-contexte" class="section-anchor">
+      <h2 class="section-title">Contexte fonctionnel</h2>
+      <div class="mandate">
+        La base de données est là et elle répond à nos questions. Mais nos équipes RH ne peuvent pas travailler en ligne de commande. Elles ont besoin d'une application web simple, claire, qui s'appuie sur cette base pour consulter et gérer le planning.
+        <br><br>
+        Votre mission pour la Phase 2 est de construire une application web composée de deux parties&nbsp;:
+        <strong>un backend Django</strong> connecté à la base de données, et <strong>un frontend React</strong> qui communique avec ce backend via des <strong>API (endpoints)</strong>.
+      </div>
+      <div style="margin: 18px 0 8px; text-align:center;">
+        <img src="Image/hospiplan-phase2-architecture-fullstack.jpg"
+             alt="Schéma d'architecture montrant frontend React, backend Django et base de données"
+             style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.18);">
+      </div>
+    </div>
+
+    <div id="p2-specs" class="section-anchor">
+      <h2 class="section-title">Spécifications techniques</h2>
+
+      <h3 class="sub-title">Backend Django REST ou FastAPI — API et CRUD</h3>
+      <p>Le backend doit fournir une API simple permettant au frontend de réaliser des opérations de base (CRUD) sur les principales ressources&nbsp;:</p>
+      <ul class="styled">
+        <li><strong>Soignants</strong> : créer, lister, mettre à jour, supprimer un soignant.</li>
+        <li><strong>Postes de garde</strong> : créer, lister, mettre à jour, supprimer un poste.</li>
+        <li><strong>Affectations</strong> : créer et supprimer une affectation (lier un soignant à un poste).</li>
+        <li><strong>Absences</strong> : déclarer une absence, lister les absences d'un soignant.</li>
+      </ul>
+      <p>Les réponses de l'API sont en <strong>JSON</strong> et doivent contenir des messages clairs en cas d'erreur.</p>
+
+      <h3 class="sub-title">Frontend React — Application côté client</h3>
+      <p>Le frontend est une petite application React (ou équivalent) qui consomme l'API Django. Le design peut rester simple&nbsp;: ce qui compte, c'est la fonctionnalité.</p>
+      <ul class="styled">
+        <li>Une page qui affiche la <strong>liste des soignants</strong> et permet d'en ajouter / modifier / supprimer.</li>
+        <li>Une page qui affiche la <strong>liste des postes</strong> (avec date, service, type de garde...).</li>
+        <li>Un <strong>formulaire de création d'affectation</strong> (choix d'un soignant + d'un poste) qui appelle l'API et affiche les messages d'erreur si une contrainte dure est violée.</li>
+      </ul>
+
+      <h3 class="sub-title">Contraintes dures dans le code</h3>
+      <p>Les contraintes dures doivent maintenant être appliquées automatiquement par le backend à chaque tentative d'affectation&nbsp;:</p>
+      <ul class="styled">
+        <li>Un soignant ne peut pas être affecté à deux postes dont les plages horaires se chevauchent, même partiellement.</li>
+        <li>Un soignant ne peut occuper un poste que s'il possède <em>toutes</em> les certifications requises par ce poste, et qu'aucune n'est expirée à la date de la garde.</li>
+        <li>Après une garde de nuit, un repos minimal réglementaire doit être respecté avant toute nouvelle affectation (durée configurable, stockée en base).</li>
+        <li>Le nombre de soignants qualifiés affectés à un service ne peut pas descendre sous le seuil de sécurité défini pour ce service et ce type de créneau.</li>
+        <li>Un soignant ne peut être affecté que si son contrat actif autorise ce type de garde (ex&nbsp;: un stagiaire ne peut pas faire de nuit).</li>
+        <li>Un soignant en absence déclarée ne peut pas être affecté, quelle que soit la raison de l'absence.</li>
+        <li>Le quota d'heures hebdomadaires contractuelles ne peut pas être dépassé.</li>
+        <li>Les contraintes impératives déclarées par le soignant (F‑07) doivent être respectées.</li>
+      </ul>
+      <p>Concrètement, chaque <strong>requête d'API</strong> qui crée ou modifie une affectation doit appeler une ou plusieurs fonctions de validation qui consultent la base (soignant, contrats, certifications, absences, type de poste, etc.) et refusent l'opération si une contrainte dure est violée.</p>
+
+      
+    </div>
+
+    <div id="p2-reflex" class="section-anchor">
+      <div class="box box-reflex fade-in">
+        <div class="box-header"><span class="box-icon">💭</span><strong>Pistes de réflexion — Phase 2</strong></div>
+        <ul class="styled">
+          <li>Qu'est-ce qu'une architecture REST ? Quelles contraintes impose-t-elle sur la conception des URLs et des verbes HTTP ?</li>
+          <li>Comment modéliser des permissions fines (un responsable de service peut modifier les affectations de son service mais pas des autres) sans dupliquer la logique ?</li>
+          <li>Pourquoi un token d'accès a-t-il une durée de vie courte ? À quoi sert le refresh token ?</li>
+          <li>Comment gérer un conflit d'affectation côté API : retourner une erreur 409 avec des détails utiles, ou laisser le client décider ?</li>
+          <li>La journalisation des actions (audit log) doit-elle être dans la même base de données ou séparée ? Quels sont les arguments de chaque approche ?</li>
+          <li>Qu'est-ce que CORS ? Pourquoi ce problème apparaît-il quand le frontend et le backend tournent sur des ports différents ?</li>
+          <li>Comment tester un endpoint qui nécessite une authentification ? Comment simuler différents rôles dans les tests ?</li>
+        </ul>
+      </div>
+    </div>
+
+  
+
+    <div id="p2-livrables" class="section-anchor">
+      <div class="box box-livrable fade-in">
+        <div class="box-header"><span class="box-icon">✅</span><strong>Livrables de Phase 2</strong></div>
+        <ul class="styled">
+          <li><strong>Document (sur feuille blanche) de pseudo‑code</strong> des fonctions de contraintes dures, faisant le lien entre règles métier et schéma de base de données (tables, attributs).</li>
+          <li><strong>Backend Django REST ou FastAPI</strong> fonctionnel, connecté à la base de données, exposant des endpoints pour gérer les soignants, postes, affectations et absences (CRUD de base).</li>
+          <li><strong>Application frontend React</strong> (ou équivalent) consommant l'API&nbsp;: au minimum, affichage des listes principales et formulaire de création d'affectation.</li>
+          <li><strong>Implémentation effective des contraintes dures</strong> dans le backend&nbsp;: une affectation qui viole une contrainte dure doit être refusée avec un message d'erreur clair.</li>
+        </ul>
+        <details class="box box-docs" style="margin-top:14px;">
+          <summary><strong>Livrables avancés (optionnels) — Phase 2</strong></summary>
+          <div style="margin-top:8px;">
+            <p>Ces éléments sont <strong>optionnels</strong> et viennent en plus des livrables de base. Ils sont destinés aux étudiants qui souhaitent aller plus loin (ou qui maîtrisent déjà ces outils).</p>
+            <ul class="styled">
+              <li><strong>Versionner le projet avec Git</strong> et publier le code sur une plateforme (GitHub, GitLab...), avec un dépôt propre et un <code>README</code> expliquant comment lancer le backend, le frontend et configurer la base.</li>
+              <li><strong>Dockeriser l'application</strong> : fichier <code>docker-compose.yml</code> lançant la base de données, le backend et le frontend.</li>
+              <li><strong>Déployer</strong> :
+                mettre en ligne l'application (par exemple sur Vercel connecté à GitHub) avec une base de test cohérente.</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+    </div>
+
+      <div id="p2-docs" class="section-anchor">
+      <div class="box box-docs fade-in">
+        <div class="box-header"><span class="box-icon">📚</span><strong>Ressources documentaires</strong></div>
+        <ul class="styled">
+          <li><a href="https://fastapi.tiangolo.com/" target="_blank">FastAPI — Documentation officielle</a></li>
+          <li><a href="https://www.django-rest-framework.org/" target="_blank">Django REST Framework — Guide complet</a></li>
+          <li><a href="https://react.dev/learn" target="_blank">React — Guide de démarrage officiel</a></li>
+          <li><a href="https://jwt.io/introduction" target="_blank">JWT.io — Comprendre les JSON Web Tokens</a></li>
+          <li><a href="https://restfulapi.net/" target="_blank">RESTful API — Bonnes pratiques de conception</a></li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- /content phase 2 -->
+
+  <!-- Section nav: after Phase 2 -->
+  <div class="section-nav">
+    <a href="#p1-contexte" class="section-nav-btn prev">
+      <span class="snb-arrow">←</span>
+      <div><div class="snb-label">Précédent</div><div class="snb-title">Phase 1 — Fondations BD</div></div>
+    </a>
+    <div class="section-nav-center">
+      <a href="#accueil"     class="snc-dot" style="--snc-color:#5BA3F5" title="Accueil"></a>
+      <a href="#p1-contexte" class="snc-dot" style="--snc-color:#5BA3F5" title="Phase 1"></a>
+      <a href="#p2-contexte" class="snc-dot active" style="--snc-color:#2DD4E6" title="Phase 2"></a>
+      <a href="#p3-contexte" class="snc-dot" style="--snc-color:#4ADE80" title="Phase 3"></a>
+    </div>
+    <a href="#p3-contexte" class="section-nav-btn next">
+      <span class="snb-arrow">→</span>
+      <div><div class="snb-label">Suivant</div><div class="snb-title">Phase 3 — Planning auto &amp; molles</div></div>
+    </a>
+  </div>
+  <div class="phase-block phase-3" style="border-top-color:#166534">
+    <div class="phase-header" data-num="03">
+      <span class="phase-eyebrow">Phase 03</span>
+      <h2>Contraintes molles &amp; planning automatique</h2>
+      <p class="phase-sub">Du planning saisi à la main au premier planning généré, admissible et le plus équitable possible</p>
+      <div class="phase-pills">
+        <span class="phase-pill">🎯 Fonction objectif</span>
+        <span class="phase-pill">🧠 Heuristique / méta</span>
+        <span class="phase-pill">🤖 Génération auto</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div id="p3-contexte" class="section-anchor">
+      <h2 class="section-title">Contexte fonctionnel</h2>
+      <div class="mandate">
+        En Phase 2, votre application <strong>respecte déjà toutes les contraintes dures</strong> : une affectation illégale ne peut pas être enregistrée. C’est indispensable pour la sécurité et la conformité.
+        <br><br>
+        En revanche, les RH <strong>remplissent encore le planning à la main</strong>, créneau par créneau. C’est long — et les <strong>contraintes molles</strong> (équité entre collègues, préférences, week-ends, continuité de soins…) sont quasiment impossibles à équilibrer « à l’œil ».
+        <br><br>
+        <strong>Mission Phase 3</strong> : le système doit pouvoir <strong>générer automatiquement un premier planning</strong> (jour ou semaine, à fixer dans votre cahier) qui reste <strong>100 % admissible</strong> (aucune contrainte dure violée) tout en <strong>minimisant au mieux les contraintes molles</strong>, via une <strong>heuristique</strong> et éventuellement une <strong>métaheuristique</strong>. Ce planning doit être <strong>modifiable ensuite à la main</strong> dans la même application qu’en Phase 2, toujours sous contrôle des dures.
+      </div>
+      <div style="margin: 18px 0 8px; text-align:center;">
+        <img src="Image/hospiplan-phase3-planning-optimisation.png"
+             alt="Illustration — contexte phase 3, planning et optimisation"
+             style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.18);">
+      </div>
+    </div>
+
+    <div id="p3-contraintes" class="section-anchor">
+      <h2 class="section-title">Dures (rappel) et molles (à optimiser)</h2>
+      <p>Les <strong>contraintes dures</strong> sont déjà appliquées par votre backend Phase 2 : le générateur de planning ne doit <strong>jamais</strong> produire une solution qui les enfreint.</p>
+      <p>Les <strong>contraintes molles</strong> ne sont pas des interdits : on les traduit en <strong>pénalités</strong> dans une <strong>fonction objectif</strong> à <strong>minimiser</strong>. Plus le score est bas, plus le planning est « bon » du point de vue RH (sous réserve que tout reste légal).</p>
+
+      <h3 class="sub-title">Contraintes molles à minimiser</h3>
+      <ul class="styled">
+        <li>Éviter plus de N nuits consécutives pour un même soignant (N configurable par type de contrat).</li>
+        <li>Respecter les préférences de créneaux déclarées par le soignant (F-07), pondérées par leur importance.</li>
+        <li>Équilibrer la charge de travail entre soignants de même grade dans un service (écart-type du nombre de gardes minimisé).</li>
+        <li>Minimiser les changements de service pour un soignant sur une même semaine.</li>
+        <li>Respecter un ratio équitable entre gardes de week-end sur le trimestre.</li>
+        <li>Éviter d'affecter un soignant à un service où il n'a jamais travaillé sans période d'adaptation.</li>
+        <li>Favoriser la continuité de soins : affecter de préférence le même soignant aux mêmes patients sur plusieurs jours consécutifs dans les services le requérant.</li>
+      </ul>
+    </div>
+
+    <div id="p3-specs" class="section-anchor">
+      <h2 class="section-title">Spécifications techniques</h2>
+
+      <h3 class="sub-title">Logique de génération &amp; qualité du planning</h3>
+      <ul class="styled">
+        <li><strong>Contraintes dures</strong> : toute affectation proposée ou enregistrée (auto ou à la main) reste soumise à la même règle qu’en Phase 2 — <strong>aucune illégalité</strong>. Créneau impossible à couvrir légalement → laissé <strong>non pourvu</strong>, signalé.</li>
+        <li><strong>Fonction objectif</strong> à <strong>minimiser</strong> : une combinaison des molles du cahier via <strong>pénalités</strong> et <strong>poids</strong> (documentés). Le moteur de génération s’appuie dessus pour tendre vers un planning <strong>admissible</strong> et le « moins mauvais » possible sur ces critères.</li>
+        <li>Étant donné que la planification du personnel est un problème <strong>NP-difficile</strong> en général : il faut une <strong>heuristique</strong> pour construire le planning ; une <strong>métaheuristique</strong> optionnelle pour l’améliorer tout en gardant les dures respectées.</li>
+      </ul>
+
+      <h3 class="sub-title">Interface, API &amp; persistance</h3>
+      <ul class="styled">
+        <li><strong>Frontend</strong> : choix de période + périmètre, bouton <strong>« Générer »</strong>, affichage du planning + du <strong>score global</strong> (et éventuellement du détail des molles) ; <strong>édition manuelle</strong> ensuite, avec refus des sauvegardes illégales.</li>
+        <li><strong>Backend</strong> : un <code>POST</code> (ex. <code>…/plannings/generate</code>) qui déclenche la génération, enregistre le planning comme en Phase 2 et renvoie ce qu’il faut pour l’écran (au minimum : planning + score / validation).</li>
+      </ul>
+    </div>
+
+    <div id="p3-reflex" class="section-anchor">
+      <div class="box box-reflex fade-in">
+        <div class="box-header"><span class="box-icon">💭</span><strong>Pistes de réflexion — Phase 3</strong></div>
+        <ul class="styled">
+          <li>Pourquoi l’ordre dans lequel vous remplissez les créneaux change-t-il souvent la qualité du planning glouton ?</li>
+          <li>Comment éviter qu’un seul soignant « absorbe » toutes les gardes difficiles si vous ne penalisez pas l’équité ?</li>
+          <li>La planification du personnel est un problème <strong>NP-difficile</strong> en général : qu’implique-t-il pour votre attente de « optimal » vs « très bon en temps raisonnable » ?</li>
+          <li>Quand charger les règles F-10 depuis la base : à chaque génération, ou cache avec invalidation ?</li>
+        </ul>
+      </div>
+    </div>
+
+
+    <div id="p3-livrables" class="section-anchor">
+      <div class="box box-livrable fade-in">
+        <div class="box-header"><span class="box-icon">✅</span><strong>Livrable de la phase 3</strong></div>
+        <ul class="styled">
+          <li><strong>Sur feuille papier</strong> : pseudo-code des fonctions qui servent à <strong>minimiser les contraintes molles</strong> (via une <strong>heuristique</strong> et/ou une <strong>métaheuristique</strong>).          Exemple <em>« Équilibrer la charge de travail entre soignants de même grade dans un service (écart-type du nombre de gardes minimisé) »</em> : vous devez proposer une <strong>heuristique connue</strong> qui répond à ce type de problème, et la décrire en pseudo-code. Exemple classique : l’<strong>heuristique du moins chargé</strong> (<em>least-loaded</em> / <em>minimum load</em>) — à chaque affectation, parmi les soignants <strong>légaux</strong>, choisir celui qui a déjà le <strong>moins de gardes</strong> sur la période dans ce service (glouton qui tend à lisser la charge et à réduire l’écart-type). 
+          </li>
+          <li><strong>Implémentation</strong> : intégrer ces fonctionnalités dans <strong>l’application réalisée en phase 2</strong> (génération / score molles / édition du planning toujours sous contraintes dures).</li>
+        </ul>
+        <details class="fade-in" style="margin-top:1rem;">
+          <summary style="cursor:pointer;font-weight:600;">Pour aller plus loin (optionnel)</summary>
+          <div class="box box-docs" style="margin-top:0.75rem;">
+            <ul class="styled">
+              <li><strong>Tests unitaires</strong> sur les fonctions de pénalités et/ou sur la génération.</li>
+              <li><strong>CI</strong> : pipeline <strong>GitHub Actions</strong> qui lance les tests unitaires à chaque <strong>push</strong> sur GitHub.</li>
+              <li>Si la CI est <strong>validée</strong> : <strong>déploiement automatique</strong> (ex. <strong>Vercel</strong> et/ou <strong>Railway</strong>).</li>
+              <li><strong>Mise à jour de la documentation</strong> .</li>
+            </ul>
+          </div>
+        </details>  
+      </div>
+      
+    </div>
+
+    
+    <div id="p3-docs" class="section-anchor">
+      <div class="box box-docs fade-in">
+        <div class="box-header"><span class="box-icon">📚</span><strong>Ressources documentaires</strong></div>
+        <ul class="styled">
+          <li><a href="https://en.wikipedia.org/wiki/Constraint_satisfaction_problem" target="_blank">CSP — Wikipédia</a></li>
+          <li><a href="https://www.bigocheatsheet.com/" target="_blank">Big-O Cheat Sheet</a></li>
+          <li><a href="https://docs.pytest.org/en/stable/" target="_blank">pytest</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin: 24px 0 8px; text-align:center;">
+      <img src="Image/hospiplan-phase3-equipe-soins.png"
+           alt="Phase 3 — illustration"
+           style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.18);">
+    </div>
+
+  </div><!-- /content phase 3 -->
+
+  <!-- Section nav: after Phase 3 -->
+  <div class="section-nav">
+    <a href="#p2-contexte" class="section-nav-btn prev">
+      <span class="snb-arrow">←</span>
+      <div><div class="snb-label">Précédent</div><div class="snb-title">Phase 2 — API & Fullstack</div></div>
+    </a>
+    <div class="section-nav-center">
+      <a href="#accueil"     class="snc-dot" style="--snc-color:#5BA3F5" title="Accueil"></a>
+      <a href="#p1-contexte" class="snc-dot" style="--snc-color:#5BA3F5" title="Phase 1"></a>
+      <a href="#p2-contexte" class="snc-dot" style="--snc-color:#2DD4E6" title="Phase 2"></a>
+      <a href="#p3-contexte" class="snc-dot active" style="--snc-color:#4ADE80" title="Phase 3"></a>
+    </div>
+    <a href="#accueil" class="section-nav-btn next">
+      <span class="snb-arrow">↑</span>
+      <div><div class="snb-label">Retour</div><div class="snb-title">Haut de page</div></div>
+    </a>
+  </div>
+  <div class="footer">
+    HOSPIPLAN · Cahier de charges évolutif · Guide Étudiant · Al Amal Hospital System
+  </div>
+
+</main>
+
+<script>
+// ── Topnav show/hide on scroll ────────────────────────────────────────────────
+const topnav   = document.getElementById('topnav');
+const backTop  = document.getElementById('back-to-top');
+const hero     = document.getElementById('accueil');
+
+window.addEventListener('scroll', () => {
+  const past = window.scrollY > (hero ? hero.offsetHeight * 0.6 : 300);
+  topnav.classList.toggle('visible', past);
+  backTop.classList.toggle('visible', window.scrollY > 400);
+}, { passive: true });
+
+// ── Active sidebar + topnav link on scroll ────────────────────────────────────
+const allSections = document.querySelectorAll('.section-anchor, #accueil');
+const sideLinks   = document.querySelectorAll('.sidebar-link, .sidebar-sub');
+const topLinks    = document.querySelectorAll('.topnav-link');
+const topDots     = document.querySelectorAll('.topnav-dot');
+
+const phaseIds = {
+  'p1-contexte': '1', 'p1-specs': '1', 'p1-reflex': '1', 'p1-docs': '1', 'p1-livrables': '1',
+  'p2-contexte': '2', 'p2-specs': '2', 'p2-reflex': '2', 'p2-docs': '2', 'p2-livrables': '2',
+  'p3-contexte': '3', 'p3-contraintes': '3', 'p3-specs': '3', 'p3-reflex': '3', 'p3-docs': '3', 'p3-livrables': '3',
+};
+
+const secObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const id = entry.target.id;
+
+    // Sidebar
+    sideLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+
+    // Topnav links
+    const phase = phaseIds[id];
+    topLinks.forEach(l => {
+      const lphase = l.dataset.phase;
+      if (id === 'accueil') {
+        l.classList.toggle('active', l.getAttribute('href') === '#accueil');
+      } else if (id === 'preambule' || id === 'objectifs' || id === 'philosophie' || id === 'stack') {
+        l.classList.toggle('active', l.getAttribute('href') === '#preambule');
+      } else if (phase) {
+        l.classList.toggle('active', lphase === phase);
+      }
+    });
+
+    // Topnav dots
+    topDots.forEach(d => d.classList.toggle('active', d.dataset.p === phase));
+  });
+}, { rootMargin: '-15% 0px -75% 0px' });
+
+allSections.forEach(s => secObserver.observe(s));
+
+// ── Fade-in on scroll ─────────────────────────────────────────────────────────
+const faders = document.querySelectorAll('.fade-in');
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08 });
+faders.forEach(f => fadeObserver.observe(f));
+
+// ── Smooth anchor clicks ───────────────────────────────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href').slice(1);
+    const target = document.getElementById(id);
+    if (target) {
+      e.preventDefault();
+      const offset = id === 'accueil' ? 0 : 60;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+      // Close mobile sidebar if open
+      closeSidebar();
+    }
+  });
+});
+
+// ── Phase dot click ────────────────────────────────────────────────────────────
+function scrollToPhase(num) {
+  const ids = { 1: 'p1-contexte', 2: 'p2-contexte', 3: 'p3-contexte' };
+  const el = document.getElementById(ids[num]);
+  if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 60, behavior: 'smooth' });
+}
+
+// ── Mobile sidebar toggle ─────────────────────────────────────────────────────
+function toggleSidebar() {
+  const sidebar  = document.getElementById('sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  const isOpen   = sidebar.classList.toggle('open');
+  backdrop.classList.toggle('visible', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-backdrop').classList.remove('visible');
+  document.body.style.overflow = '';
+}
+
+// Close sidebar on main content click (mobile)
+document.getElementById('main').addEventListener('click', () => closeSidebar());
+
+// ── Wrap all spec-tables in a horizontal scroll container ─────────────────────
+document.querySelectorAll('.spec-table').forEach(table => {
+  if (!table.parentElement.classList.contains('table-scroll')) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'table-scroll';
+    table.parentNode.insertBefore(wrapper, table);
+    wrapper.appendChild(table);
+  }
+});
+</script>
+
+</body>
+</html>
