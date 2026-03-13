@@ -8,7 +8,7 @@ Documentation et guides pour le projet **HospiPlan** (planification du personnel
 
 | Fichier | Description |
 |--------|-------------|
-| **HospiPlan_Guide_Etudiant.html** | Guide étudiant complet (3 phases : BD, API/contraintes dures, molles & génération). Ouvrir dans un navigateur (double-clic ou « Ouvrir avec »). |
+| **index.html** | Guide étudiant complet (3 phases : BD, API/contraintes dures, molles & génération). Ouvrir dans un navigateur (double-clic ou « Ouvrir avec »). |
 | **Image/** | Visuels utilisés par les guides (noms normalisés, voir ci-dessous). |
 
 
